@@ -34,4 +34,4 @@ PS C:\> Get-NthWorkingDayOfMonth -Nth 10 -Month 1 -Year 2020 -WorkingDaysOfWeek 
 
 MISC
 ----
-I wrote a blog post in January 2020 which features this script, see [Get the Nth Working Day of the Month](https://www.thecliguy.co.uk/2020/01/25/get-the-nth-working-day-of-the-month/)
+I wrote a blog post in January 2020 which features this script, see [Get the Nth Working Day of the Month](https://www.thecliguy.co.uk/2020/01/25/get-the-nth-working-day-of-the-month/).
