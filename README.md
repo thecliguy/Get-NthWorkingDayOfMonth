@@ -3,7 +3,7 @@ Gets the Nth working day of a specific month and year
 
 DESCRIPTION
 ------------
-Returns the date of the Nth working day in a specified month and year.
+Returns the date of the Nth working day in a specified month and year as a `DateTime` object.
 
 By default, the days of a working week are Monday to Friday. This can customised using the `-WorkingDaysOfWeek` parameter.
 
