@@ -8,7 +8,7 @@
 ################################################################################
 # Development Log:
 #
-# 0.1.0 - 2020-01-19 (AR)
+# 0.1.0 - 2020-01-25 (AR)
 #   * First release.
 #
 ################################################################################
@@ -20,14 +20,14 @@ Function Get-NthWorkingDayOfMonth {
         
     .DESCRIPTION
         Returns the date of the Nth working day in a specified month and year
-		as a DateTime object.
+        as a DateTime object.
 
-		In the event that there is no Nth working day then a terminating error
-		is thrown.
-		
-		By default, the days of a working week are Monday to Friday. This can
-		customised with the -WorkingDaysOfWeek parameter.
-	
+        In the event that there is no Nth working day then a terminating error
+        is thrown.
+        
+        By default, the days of a working week are Monday to Friday. This can
+        customised with the -WorkingDaysOfWeek parameter.
+    
     .EXAMPLE  
         Get-NthWorkingDayOfMonth -Nth 10 -Month 1 -Year 2020
         
@@ -52,8 +52,8 @@ Function Get-NthWorkingDayOfMonth {
         # Gets the 10th working day of January 2020.
         # Specifies the days of a working week as Mon-Thu using an array of 
         # strings, the values of which are cast as System.DayOfWeek.
-		
-	.EXAMPLE  
+        
+    .EXAMPLE  
         Get-NthWorkingDayOfMonth -Nth 10 -Month 1 -Year 2020 -WorkingDaysOfWeek ([System.DayOfWeek]::Monday), ([System.DayOfWeek]::Tuesday), ([System.DayOfWeek]::Wednesday), ([System.DayOfWeek]::Thursday)
         
         16 January 2020 00:00:00
@@ -61,6 +61,10 @@ Function Get-NthWorkingDayOfMonth {
         # Gets the 10th working day of January 2020.
         # Specifies the days of a working week as Mon-Thu using an array of 
         # System.DayOfWeek enums.
+    
+    .LINK
+        https://github.com/thecliguy/Get-NthWorkingDayOfMonth/
+        https://www.thecliguy.co.uk/2020/01/25/get-the-nth-working-day-of-the-month/
     #>
     
     [CmdletBinding()]
@@ -80,23 +84,7 @@ Function Get-NthWorkingDayOfMonth {
         [parameter(Mandatory=$False)]
         [System.DayOfWeek[]]$WorkingDaysOfWeek = 1..5
     )
-        
-    $DaysInMonth = [DateTime]::DaysInMonth($Year, $Month)
-    $NthCounter = 0
-    
-    For ($i=1; $i -le $DaysInMonth; $i++) {
-        $Date = (Get-Date -Month $Month -Year $Year -Day $i).Date
-        
-        If ($WorkingDaysOfWeek -contains $Date.DayOfWeek) {
-            $NthCounter++
-            Write-Verbose "NthCounter=$($NthCounter): $(Get-Date $Date -Format 'yyyy-MM-dd') $($Date.DayOfWeek)"
-        }
-        
-        If ($NthCounter -eq $Nth) {
-            Return $Date
-        }
-    }
-    
+            
     $OrdinalIndicator = Switch -Regex ($Nth) {
         '1(1|2|3)$' { 'th'; break }
         '.?1$'      { 'st'; break }
@@ -105,5 +93,23 @@ Function Get-NthWorkingDayOfMonth {
         default     { 'th'; break }
     }
     
+    $DaysInMonth = [DateTime]::DaysInMonth($Year, $Month)
+    $NthCounter = 0
+    
+    Write-Verbose "Calculating the $($Nth)$($OrdinalIndicator) working day ($($WorkingDaysOfWeek -join ", ")) in $((Get-Culture).DateTimeFormat.GetMonthName($Month)) $($Year)..."
+    
+    For ($i=1; $i -le $DaysInMonth; $i++) {
+        $Date = (Get-Date -Month $Month -Year $Year -Day $i).Date
+        
+        If ($WorkingDaysOfWeek -contains $Date.DayOfWeek) {
+            $NthCounter++
+            #####Write-Verbose "NthCounter=$($NthCounter): $(Get-Date $Date -Format 'yyyy-MM-dd') $($Date.DayOfWeek)"
+        }
+        
+        If ($NthCounter -eq $Nth) {
+            Return $Date
+        }
+    }
+        
     Throw "There isn't a $($Nth)$($OrdinalIndicator) working day ($($WorkingDaysOfWeek -join ", ")) in $((Get-Culture).DateTimeFormat.GetMonthName($Month)) $($Year)."
 }
