@@ -92,11 +92,11 @@ Function Get-NthWorkingDayOfMonth {
         [ValidateRange(1,9999)] 
         [Int]$Year,
         
-        [parameter(Mandatory=$False)]
-        [System.DayOfWeek[]]$WorkingDaysOfWeek = 1..5,
+		[parameter(Mandatory=$False)]
+		[System.DayOfWeek[]]$WorkingDaysOfWeek = 1..5,
 		
 		[parameter(Mandatory=$False)]
-        [Int[]]$DayOfMonthToExclude
+		[Int[]]$DayOfMonthToExclude
     )
             
     $OrdinalIndicator = Switch -Regex ($Nth) {
