@@ -38,14 +38,14 @@ Function Get-NthWorkingDayOfMonth {
         
         # Gets the 10th working day of January 2020.
     
-	.EXAMPLE  
+    .EXAMPLE  
         Get-NthWorkingDayOfMonth -Nth 10 -Month 1 -Year 2020 -DayOfMonthToExclude 1
         
         15 January 2020 00:00:00
         
         # Gets the 10th working day of January 2020.
         # Excludes the 1st January using the '-DayOfMonthToExclude' parameter.
-	
+    
     .EXAMPLE  
         Get-NthWorkingDayOfMonth -Nth 10 -Month 1 -Year 2020 -WorkingDaysOfWeek (1..4)
         
@@ -94,7 +94,7 @@ Function Get-NthWorkingDayOfMonth {
         
         [parameter(Mandatory=$False)]
         [System.DayOfWeek[]]$WorkingDaysOfWeek = 1..5,
-		
+        
         [parameter(Mandatory=$False)]
         [Int[]]$DayOfMonthToExclude
     )
@@ -115,24 +115,24 @@ Function Get-NthWorkingDayOfMonth {
     For ($i=1; $i -le $DaysInMonth; $i++) {
         $Date = (Get-Date -Month $Month -Year $Year -Day $i).Date
         
-		If ($DayOfMonthToExclude -notcontains $Date.Day) {
-			If ($WorkingDaysOfWeek -contains $Date.DayOfWeek) {
-				$NthCounter++
-				Write-Verbose "NthCounter=$($NthCounter): $(Get-Date $Date -Format 'yyyy-MM-dd') $($Date.DayOfWeek)"
-			}
-		}
+        If ($DayOfMonthToExclude -notcontains $Date.Day) {
+            If ($WorkingDaysOfWeek -contains $Date.DayOfWeek) {
+                $NthCounter++
+                Write-Verbose "NthCounter=$($NthCounter): $(Get-Date $Date -Format 'yyyy-MM-dd') $($Date.DayOfWeek)"
+            }
+        }
         
         If ($NthCounter -eq $Nth) {
             Return $Date
         }
     }
     
-	If ($PSBoundParameters.ContainsKey('DayOfMonthToExclude')) {
-		$Excluding = ", excluding day(s) of month: $($DayOfMonthToExclude -join ', ')."
-	}
-	Else {
-		$Excluding = "."
-	}
-	
+    If ($PSBoundParameters.ContainsKey('DayOfMonthToExclude')) {
+        $Excluding = ", excluding day(s) of month: $($DayOfMonthToExclude -join ', ')."
+    }
+    Else {
+        $Excluding = "."
+    }
+    
     Throw "There isn't a $($Nth)$($OrdinalIndicator) working day ($($WorkingDaysOfWeek -join ", ")) in $((Get-Culture).DateTimeFormat.GetMonthName($Month)) $($Year)$($Excluding)"
-} 
+}
