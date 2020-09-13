@@ -135,4 +135,4 @@ Function Get-NthWorkingDayOfMonth {
 	}
 	
     Throw "There isn't a $($Nth)$($OrdinalIndicator) working day ($($WorkingDaysOfWeek -join ", ")) in $((Get-Culture).DateTimeFormat.GetMonthName($Month)) $($Year)$($Excluding)"
-}
+} 
