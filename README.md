@@ -37,7 +37,7 @@ Get the 10th working day of January 2020, excluding the 1st day of the month as 
 ```
 PS C:\> Get-NthWorkingDayOfMonth -Nth 10 -Month 1 -Year 2020 -DayOfMonthToExclude 1
 
-14 January 2020 00:00:00
+15 January 2020 00:00:00
 ```
 
 MISC
